@@ -43,32 +43,6 @@ const propertySchema = new Schema({
 // Like should be last. 
 
 const Property = mongoose.model("Property", propertySchema);
-/*
-// GET ALL PROPERTIES - Behövs den?
-app.get("/housing", async (req, res) => {
-  const { type } = req.query;
-
-  try {
-    let properties = await Property.find({}); 
-
-    if (type) {
-      properties = properties.filter((property) => {
-        return property.category.toLowerCase() === type.toLowerCase();
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Properties retrieved successfully",
-      body: {
-        housingData: properties,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-*/
 
 // FILTER PROPERTIES ACCORDING TO LOCATION, PRICE RANGE, SQM RANGE, AND TYPE.
 app.get("/properties", async (req, res) => {
@@ -116,7 +90,7 @@ app.get("/properties", async (req, res) => {
 app.get("/properties/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const singleProperty = await Property.findById(id).select("category squareMeters unitOfArea description price currency address city realtor");
+    const singleProperty = await Property.findById(id).select("category squareMeters unitOfArea description price currency address.city realtor");
     if (singleProperty) {
       res.status(200).json(singleProperty);
     } else {
@@ -126,6 +100,7 @@ app.get("/properties/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 
 
