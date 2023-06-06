@@ -24,8 +24,10 @@ const propertySchema = new Schema({
   _id: { type: Number, required: true },
   category: { type: String, required: true },
   squareMeters: { type: Number, required: true },
+  sqmType: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
+  pricingType: { type: String, required: true },
   address: {
     street: { type: String, required: true },
     streetNumber: { type: Number, required: true },
@@ -96,7 +98,7 @@ app.get("/properties", async (req, res) => {
     }
 
     if (location) {
-      filters.city = { $regex: new RegExp(location, "i") };
+      filters["address.city"] = { $regex: new RegExp(location, "i") };
     }
 
     const properties = await Property.find(filters);
@@ -106,6 +108,7 @@ app.get("/properties", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 
 
