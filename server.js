@@ -116,7 +116,7 @@ app.get("/properties", async (req, res) => {
 app.get("/properties/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const singleProperty = await Property.findById(id).select("id category squareMeters description price address city realtor");
+    const singleProperty = await Property.findById(id).select("category squareMeters unitOfArea description price currency address city realtor");
     if (singleProperty) {
       res.status(200).json(singleProperty);
     } else {
@@ -126,6 +126,7 @@ app.get("/properties/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 
 
